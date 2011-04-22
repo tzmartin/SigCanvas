@@ -1,0 +1,81 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head> 
+    <meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1" />
+    <title>sketchpad</title> 
+	<script type="text/javascript" charset="utf-8"> 
+	window.addEventListener('load',function(){
+		// get the canvas element and its context
+		var canvas = document.getElementById('sketchpad');
+		var context = canvas.getContext('2d');
+		
+		// create a drawer which tracks touch movements
+		var drawer = {
+			isDrawing: false,
+			touchstart: function(coors){
+				context.beginPath();
+				context.moveTo(coors.x, coors.y);
+				this.isDrawing = true;
+			},
+			touchmove: function(coors){
+				if (this.isDrawing) {
+			        context.lineTo(coors.x, coors.y);
+			        context.stroke();
+				}
+			},
+			touchend: function(coors){
+				if (this.isDrawing) {
+			        this.touchmove(coors);
+			        this.isDrawing = false;
+				}
+			}
+		};
+		// create a function to pass touch events and coordinates to drawer
+		function draw(event){
+			// get the touch coordinates
+			var coors = {
+				x: event.targetTouches[0].pageX,
+				y: event.targetTouches[0].pageY
+			};
+			// pass the coordinates to the appropriate handler
+			drawer[event.type](coors);
+		}
+		
+		// attach the touchstart, touchmove, touchend event listeners.
+	    canvas.addEventListener('touchstart',draw, false);
+	    canvas.addEventListener('touchmove',draw, false);
+	    canvas.addEventListener('touchend',draw, false);
+		
+		// prevent elastic scrolling
+		document.body.addEventListener('touchmove',function(event){
+			event.preventDefault();
+		},false);	// end body.onTouchMove
+		
+	},false);	// end window.onLoad
+	</script> 
+    <style type="text/css"><!--
+		body {
+			margin: 5px 5px 5px 5px ;
+			padding: 0px 0px 0px 0px ;
+			width:235px;
+			height:400px;
+			border:none;
+		}
+		#container{position:relative;}
+		canvas {
+			-webkit-touch-callout: none ;
+			-webkit-user-select: none ;
+			background-color:#FFF;
+			border:none;
+		}
+    --></style> 
+  </head> 
+  <body> 
+	<div id="container"> 
+      <canvas id="sketchpad" height="450" width="240"> 
+        Sorry, your browser is not supported.
+      </canvas>		
+	</div> 
+  </body> 
+</html>

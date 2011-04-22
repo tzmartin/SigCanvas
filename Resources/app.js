@@ -1,7 +1,7 @@
 /*
 	Name: Signature Canvas
-	Descriptin: Draw on a CANVAS element using jQuery embedded in a Titanium Mobile UIWebView.
-	Version: 1.0
+	Descriptin: Draw a signature on a CANVAS element.
+	Version: 1.1
 	Author: Terry Martin
 	Link: http://tzmartin.com
 	
